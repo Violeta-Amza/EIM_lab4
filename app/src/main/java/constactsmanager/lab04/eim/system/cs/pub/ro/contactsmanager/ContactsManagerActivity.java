@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,7 @@ public class ContactsManagerActivity extends AppCompatActivity {
                     break;
                 case R.id.b_cancel:
                     setResult(Activity.RESULT_CANCELED, new Intent());
+                    finish();
                     break;
                 case R.id.b_save:
 
@@ -99,7 +101,6 @@ public class ContactsManagerActivity extends AppCompatActivity {
                     }
                     intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, contactData);
                     startActivityForResult(intent, Constants.CONTACTS_MANAGER_REQUEST_CODE);
-
                     break;
             }
         }
@@ -120,22 +121,23 @@ public class ContactsManagerActivity extends AppCompatActivity {
 
         additionalFieldsContainer = (LinearLayout)findViewById(R.id.container_invisible);
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            String phone = intent.getStringExtra("constactsmanager.lab04.eim.system.cs.pub.ro.contactsmanager.PHONE_NUMBER_KEY");
-            if (phone != null) {
-                phoneEditText.setText(phone);
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.phone_error), Toast.LENGTH_LONG).show();
-            }
-        }
-
         showHide = (Button)findViewById(R.id.b_show_hide);
         showHide.setOnClickListener(listenerB);
         save = (Button)findViewById(R.id.b_save);
         save.setOnClickListener(listenerB);
         cancel = (Button)findViewById(R.id.b_cancel);
         cancel.setOnClickListener(listenerB);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String phone = intent.getStringExtra("contactsmanager.lab04.contactsmanager.PHONE_NUMBER_KEY");
+            Log.d("test", "test:........" + phone);
+            if (phone != null) {
+                phoneEditText.setText(phone);
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.phone_error), Toast.LENGTH_LONG).show();
+            }
+        }
 
     }
 
